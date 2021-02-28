@@ -1,0 +1,22 @@
+version: '3'
+
+services: 
+  proxy:
+    # build: ./nginx-njs
+    image: nginx
+    ports: 
+      - "8080:80"
+      - "8282:8282"
+    volumes: 
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx_conf.d:/etc/nginx/conf.d
+  opa:
+    image: openpolicyagent/opa:latest
+    ports: 
+      - "8181:8181"
+    command: 
+      - "run"
+      - "--server"
+      - "--log-level=debug"
+      - "--log-format=json-pretty"
+      - "--set=decision_logs.console=true"
